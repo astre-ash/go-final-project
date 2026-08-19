@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"path/filepath"
 	"syscall"
 	"time"
 
@@ -22,18 +21,7 @@ func main() {
 		log.Println("Error loading .env file")
 	}
 
-	appPath, err := os.Executable()
-	if err != nil {
-		log.Fatalf("Failed to get executable path: %v", err)
-	}
-
-	rootDir := filepath.Dir(appPath)
-	webDir := filepath.Join(rootDir, "web")
-
-	if _, err := os.Stat(webDir); os.IsNotExist(err) {
-		log.Println("Using relative path for the web directory")
-		webDir = "./web"
-	}
+	webDir := "./web"
 
 	dbFile := os.Getenv("TODO_DBFILE")
 	if dbFile == "" {

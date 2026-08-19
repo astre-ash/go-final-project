@@ -101,7 +101,12 @@ func (h *TaskHandler) UpdateTask(w http.ResponseWriter, r *http.Request) {
 	err = h.Store.UpdateTask(t)
 	if err != nil {
 		log.Printf("UpdateTask error: failed to update task (ID: %s): %v", t.ID, err)
-		sendError(w, "Task not found", http.StatusNotFound)
+
+		if err.Error() == "task not found" {
+			sendError(w, "Task not found", http.StatusNotFound)
+		} else {
+			sendError(w, "Internal server error", http.StatusInternalServerError)
+		}
 		return
 	}
 
