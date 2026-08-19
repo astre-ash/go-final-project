@@ -1,0 +1,17 @@
+services:
+  todo-app:
+    build: .
+    image: my-todo-app
+    container_name: todo-server
+    
+    
+    ports:
+      - "7540:7540"
+   
+    volumes:
+      - ./todo-db:/data
+   
+    env_file:
+      - .env
+
+    restart: unless-stopped
